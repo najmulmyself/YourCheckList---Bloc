@@ -113,12 +113,14 @@ class TodoPage extends StatelessWidget {
             TextButton(
               onPressed: () {
                 // if empty
+
                 if (editTask.value.text.isNotEmpty) {
                   BlocProvider.of<TodosCubit>(context)
                       .editTask(editTask.value.text, index);
                   Navigator.pop(context);
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
+                    //showing a snackbar
                     const SnackBar(
                       content: Text("Field should not be empty"),
                     ),
