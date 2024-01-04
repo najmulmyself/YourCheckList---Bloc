@@ -112,6 +112,7 @@ class TodoPage extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
+                // if empty
                 if (editTask.value.text.isNotEmpty) {
                   BlocProvider.of<TodosCubit>(context)
                       .editTask(editTask.value.text, index);
