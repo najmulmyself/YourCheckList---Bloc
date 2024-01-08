@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/cubit/todos_cubit.dart';
+import 'package:todo/widgets/addTaskModal.dart';
+import 'package:todo/widgets/editTaskModal.dart';
+
+import 'widgets/common_widgets/appbar.dart';
 
 class TodoPage extends StatelessWidget {
-  final TextEditingController _taskCon = TextEditingController();
-  TodoPage({super.key});
+  const TodoPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Todos App'),
+      resizeToAvoidBottomInset: false,
+      appBar: const CustomAppbar(
+        title: "Welcome to the board",
       ),
       body: BlocBuilder<TodosCubit, TodosInitial>(
         builder: (context, state) {
@@ -21,7 +25,7 @@ class TodoPage extends StatelessWidget {
                   return ListTile(
                     leading: GestureDetector(
                         onTap: () {
-                          _editTaskDialouge(context, index, state.todos[index]);
+                          editTaskModal(context, index, state.todos[index]);
                         },
                         child: const Icon(Icons.edit)),
                     title: Text(state.todos[index]),
@@ -45,94 +49,10 @@ class TodoPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _showAddTaskDialog(context);
+          showAddTaskModal(context);
         },
         child: const Icon(Icons.add),
       ),
-    );
-  }
-
-  void _showAddTaskDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Add Task'),
-          content: TextField(
-            controller: _taskCon,
-            decoration: const InputDecoration(labelText: 'Enter new task'),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context); // Close the dialog
-              },
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                if (_taskCon.value.text.isNotEmpty) {
-                  BlocProvider.of<TodosCubit>(context)
-                      .addTask(_taskCon.value.text);
-                  Navigator.pop(context);
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Field should not be empty"),
-                    ),
-                  );
-                }
-                _taskCon.clear();
-              },
-              child: const Text('Submit'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _editTaskDialouge(BuildContext context, index, text) {
-    TextEditingController editTask = TextEditingController(text: text);
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Edit Task'),
-          content: TextField(
-            controller: editTask,
-            decoration: const InputDecoration(labelText: 'Edit task'),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context); // Close the dialog
-              },
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                // if empty
-
-                if (editTask.value.text.isNotEmpty) {
-                  BlocProvider.of<TodosCubit>(context)
-                      .editTask(editTask.value.text, index);
-                  Navigator.pop(context);
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    //showing a snackbar
-                    const SnackBar(
-                      content: Text("Field should not be empty"),
-                    ),
-                  );
-                }
-                _taskCon.clear();
-              },
-              child: const Text('Edit'),
-            ),
-          ],
-        );
-      },
     );
   }
 }

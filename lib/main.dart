@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:todo/TodoPage.dart';
 import 'package:todo/cubit/todos_cubit.dart';
 
@@ -12,11 +13,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => TodosCubit(),
-      child: MaterialApp(
-        title: 'Your App Title',
-        home: TodoPage(),
+    return ScreenUtilInit(
+      designSize: const Size(750, 1334),
+      child: BlocProvider(
+        create: (context) => TodosCubit(),
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Your CheckList',
+          home: TodoPage(),
+        ),
       ),
     );
   }
