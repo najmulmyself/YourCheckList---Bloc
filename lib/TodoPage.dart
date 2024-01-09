@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo/const/colors.dart';
 import 'package:todo/cubit/todos_cubit.dart';
 import 'package:todo/widgets/addTaskModal.dart';
+import 'package:todo/widgets/common_widgets/primaryBtn.dart';
 import 'package:todo/widgets/editTaskModal.dart';
 
 import 'widgets/common_widgets/appbar.dart';
 
 class TodoPage extends StatelessWidget {
-  const TodoPage({super.key});
+  TodoPage({super.key});
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _taskTitle = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +46,24 @@ class TodoPage extends StatelessWidget {
                   );
                 });
           } else {
-            return const Center(
-              child: Text('No todos available.'),
+            return Column(
+              children: [
+                PrimaryBtn(
+                  text: "Submit",
+                  onPressed: () {
+                    // if (_formKey.currentState!.validate()) {
+                    //   // Validation passed, add the task
+                    //   BlocProvider.of<TodosCubit>(context)
+                    //       .addTask(_taskTitle.text);
+                    //   Navigator.pop(context);
+                    //   // _taskTitle.clear();
+                    // }
+                  },
+                ),
+                const Center(
+                  child: Text('No todos available.'),
+                ),
+              ],
             );
           }
         },
