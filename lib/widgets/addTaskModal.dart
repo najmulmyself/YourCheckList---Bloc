@@ -124,6 +124,8 @@ void showAddTaskModal(BuildContext context) {
                                 },
                               );
                             },
+
+                            // this will add reminder logic here
                             child: const Icon(
                               Icons.notifications_active,
                               color: colorGrey,
