@@ -50,7 +50,15 @@ class TodoPage extends StatelessWidget {
               children: [
                 PrimaryBtn(
                   text: "Submit",
-                  onPressed: () {},
+                  onPressed: () {
+                    // if (_formKey.currentState!.validate()) {
+                    //   // Validation passed, add the task
+                    //   BlocProvider.of<TodosCubit>(context)
+                    //       .addTask(_taskTitle.text);
+                    //   Navigator.pop(context);
+                    //   // _taskTitle.clear();
+                    // }
+                  },
                 ),
                 const Center(
                   child: Text('No todos available.'),
